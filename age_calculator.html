@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      text-align: center;
+      width: 350px;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #222;
+    }
+    input {
+      padding: 10px;
+      margin: 8px;
+      border-radius: 8px;
+      border: 1px solid #bbb;
+      width: 80px;
+      text-align: center;
+      background: #f9f9f9;
+    }
+    input:focus {
+      outline: none;
+      border-color: #66a6ff;
+      box-shadow: 0 0 5px rgba(102,166,255,0.6);
+    }
+    button {
+      margin-top: 15px;
+      padding: 12px 22px;
+      background: linear-gradient(135deg, #007bff, #0056b3);
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: linear-gradient(135deg, #0056b3, #003f88);
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Age Calculator</h2>
+    <div>
+      <input type="number" id="day" placeholder="DD" min="1" max="31">
+      <input type="number" id="month" placeholder="MM" min="1" max="12">
+      <input type="number" id="year" placeholder="YYYY">
+    </div>
+    <button onclick="calculateAge()">Calculate Age</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculateAge() {
+      let day = document.getElementById("day").value;
+      let month = document.getElementById("month").value;
+      let year = document.getElementById("year").value;
+
+      if (!day || !month || !year) {
+        document.getElementById("result").innerHTML = "⚠️ Please enter full Date of Birth!";
+        return;
+      }
+
+      let dob = new Date(year, month - 1, day);
+      let today = new Date();
+
+      let ageYears = today.getFullYear() - dob.getFullYear();
+      let ageMonths = today.getMonth() - dob.getMonth();
+      let ageDays = today.getDate() - dob.getDate();
+
+      if (ageDays < 0) {
+        ageMonths--;
+        let prevMonth = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+        ageDays += prevMonth;
+      }
+
+      if (ageMonths < 0) {
+        ageYears--;
+        ageMonths += 12;
+      }
+
+      if (ageYears < 0) {
+        document.getElementById("result").innerHTML = "❌ Invalid Date of Birth!";
+        return;
+      }
+
+      document.getElementById("result").innerHTML = 
+        `🎉 You are <b>${ageYears}</b> years, <b>${ageMonths}</b> months, and <b>${ageDays}</b> days old.`;
+    }
+  </script>
+</body>
+</html>
